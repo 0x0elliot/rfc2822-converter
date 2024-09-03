@@ -1,118 +1,149 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useState } from 'react';
+import Head from 'next/head';
+import { ClipboardCopy } from 'lucide-react';
 
 export default function Home() {
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [subject, setSubject] = useState('');
+  const [body, setBody] = useState('');
+  const [rfc822, setRfc822] = useState('');
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const convertToRFC822 = () => {
+    const date = new Date().toUTCString();
+    const payload = `From: ${from}\r\nTo: ${to}\r\nDate: ${date}\r\nSubject: ${subject}\r\n\r\n${body}`;
+    const base64Payload = Buffer.from(payload).toString('base64');
+    setRfc822(base64Payload.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''));
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(rfc822);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RFC822 Converter for Email APIs",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Convert email content to RFC822 format for use with Gmail API, Outlook API, and other email services."
+  };
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.js</code>
+    <div className="min-h-screen bg-yellow-300">
+      <Head>
+        <title>RFC822 Converter for Gmail, Outlook & Email APIs | Free Online Tool</title>
+        <meta name="description" content="Free online tool to convert email content to RFC822 format. Compatible with Gmail API, Outlook API, and other email services. Easy to use for developers and email automation." />
+        <meta name="keywords" content="RFC822, email converter, Gmail API, Outlook API, email automation, developer tool, base64 encoding" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://yourdomain.com/rfc822-converter" />
+        <meta property="og:title" content="RFC822 Converter for Email APIs" />
+        <meta property="og:description" content="Convert email content to RFC822 format for use with Gmail API, Outlook API, and other email services." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://yourdomain.com/rfc822-converter" />
+        <meta property="og:image" content="https://yourdomain.com/rfc822-converter-og-image.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="RFC822 Converter for Email APIs" />
+        <meta name="twitter:description" content="Convert email content to RFC822 format for use with Gmail API, Outlook API, and other email services." />
+        <meta name="twitter:image" content="https://yourdomain.com/rfc822-converter-twitter-image.jpg" />
+        <link rel="icon" href="/favicon.ico" />
+        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+      </Head>
+      <main className="container mx-auto p-8">
+        <h1 className="text-4xl font-bold mb-4 text-center text-blue-700">
+          RFC822 Converter for Email APIs
+        </h1>
+        <p className="text-xl mb-8 text-center text-gray-700">
+          Convert your email content to RFC822 format for use with Gmail API, Outlook API, and other email services.
         </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
+          <div className="mb-6">
+            <label htmlFor="from" className="block mb-2 text-lg font-semibold text-blue-600">From:</label>
+            <input
+              id="from"
+              type="email"
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+              className="w-full p-3 border-2 border-blue-300 rounded-lg focus:outline-none focus:border-blue-500 text-gray-800"
+              placeholder="Enter sender's email"
             />
-          </a>
+          </div>
+          <div className="mb-6">
+            <label htmlFor="to" className="block mb-2 text-lg font-semibold text-blue-600">To:</label>
+            <input
+              id="to"
+              type="email"
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+              className="w-full p-3 border-2 border-blue-300 rounded-lg focus:outline-none focus:border-blue-500 text-gray-800"
+              placeholder="Enter recipient's email"
+            />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="subject" className="block mb-2 text-lg font-semibold text-blue-600">Subject:</label>
+            <input
+              id="subject"
+              type="text"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              className="w-full p-3 border-2 border-blue-300 rounded-lg focus:outline-none focus:border-blue-500 text-gray-800"
+              placeholder="Enter email subject"
+            />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="body" className="block mb-2 text-lg font-semibold text-blue-600">Body:</label>
+            <textarea
+              id="body"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              className="w-full p-3 border-2 border-blue-300 rounded-lg h-40 focus:outline-none focus:border-blue-500 text-gray-800"
+              placeholder="Enter email body"
+            />
+          </div>
+          <button
+            onClick={convertToRFC822}
+            className="w-full bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors duration-300"
+          >
+            Convert to RFC822
+          </button>
+          {rfc822 && (
+            <div className="mt-8">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold text-blue-600">RFC822 Payload:</h2>
+                <button
+                  onClick={copyToClipboard}
+                  className="flex items-center bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition-colors duration-300"
+                >
+                  <ClipboardCopy className="mr-2" size={20} />
+                  {copySuccess ? 'Copied!' : 'Copy'}
+                </button>
+              </div>
+              <textarea
+                readOnly
+                value={rfc822}
+                className="w-full p-3 border-2 border-blue-300 rounded-lg h-40 bg-gray-100 text-gray-800"
+              />
+            </div>
+          )}
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </main>
+      <footer className="mt-12 text-center text-gray-600">
+        <p>Use this RFC822 converter for Gmail API, Outlook API, and other email service integrations.</p>
+        <p>Perfect for developers working on email automation and API projects.</p>
+      </footer>
+    </div>
   );
 }
