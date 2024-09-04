@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import Head from 'next/head';
 import { ClipboardCopy } from 'lucide-react';
 
@@ -44,29 +45,22 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-yellow-300">
       <Head>
-        <script type="text/javascript">
-          (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "ny3uvdkd84");
-      </script>
-
         <title>RFC2822 Converter for Gmail, Outlook & Email APIs | Free Online Tool</title>
+        <meta name="google-site-verification" content="_bbG3JEsili3RT_KPl2hHN9CEw6sb3E6I-bS-BGsZ9g" />
         <meta name="description" content="Free online tool to convert email content to rfc2822 format. Compatible with Gmail API, Outlook API, and other email services. Easy to use for developers and email automation." />
         <meta name="keywords" content="rfc2822, email converter, Gmail API, Outlook API, email automation, developer tool, base64 encoding" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://yourdomain.com/rfc2822-converter" />
+        <link rel="canonical" href="https://rfc2822-converter.vercel.app" />
         <meta property="og:title" content="rfc2822 Converter for Email APIs" />
         <meta property="og:description" content="Convert email content to rfc2822 format for use with Gmail API, Outlook API, and other email services." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.com/rfc2822-converter" />
-        <meta property="og:image" content="https://yourdomain.com/rfc2822-converter-og-image.jpg" />
+        <meta property="og:url" content="https://rfc2822-converter.vercel.app/" />
+        <meta property="og:image" content="https://rfc2822-converter.vercel.app/favicon.ico" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="rfc2822 Converter for Email APIs" />
         <meta name="twitter:description" content="Convert email content to rfc2822 format for use with Gmail API, Outlook API, and other email services." />
-        <meta name="twitter:image" content="https://yourdomain.com/rfc2822-converter-twitter-image.jpg" />
+        <meta name="twitter:image" content="https://rfc2822-converter.vercel.app/favicon.ico" />
         <link rel="icon" href="/favicon.ico" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
       </Head>
