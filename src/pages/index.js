@@ -44,6 +44,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-yellow-300">
       <Head>
+        <script type="text/javascript">
+          (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "ny3uvdkd84");
+      </script>
+
         <title>RFC2822 Converter for Gmail, Outlook & Email APIs | Free Online Tool</title>
         <meta name="description" content="Free online tool to convert email content to rfc2822 format. Compatible with Gmail API, Outlook API, and other email services. Easy to use for developers and email automation." />
         <meta name="keywords" content="rfc2822, email converter, Gmail API, Outlook API, email automation, developer tool, base64 encoding" />
